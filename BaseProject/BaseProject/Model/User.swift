@@ -15,113 +15,110 @@ import Foundation
 let kEmptyString = ""
 
 class User {
-    
     //Data Members
     //Note:- add/remove user details as per the requirement
-    var firstName : String!
-    var lastName : String!
-    var emailId : String!
-    var userId : String!
-    var password : String!
-    
+    var firstName: String!
+    var lastName: String!
+    var emailId: String!
+    var userId: String!
+    var password: String!
+
     //make it singleton
     private static var _currentUser: User?
-    
+
     static var currentUser: User {
         if _currentUser == nil { _currentUser = User() }
         return _currentUser!
     }
-    
+
     /* Used to reset the user */
     static func resetCurrentUser() {
         _currentUser = nil
     }
-    
-    //MARK: Initializer Methods
+    // MARK: Initializer Methods
     init() {
         self.firstName = ""
         self.lastName = ""
         self.emailId  = ""
         self.userId = ""
     }
-    
-    init(firstName:String?, lastName: String?, emailId: String?, userId: String?) {
-        
-        if Utilities.isValidValue(someObject: firstName as AnyObject){
+
+    init(firstName: String?, lastName: String?, emailId: String?, userId: String?) {
+
+        if Utilities.isValidValue(someObject: firstName as AnyObject) {
             self.firstName = firstName
         }
-        
-        if Utilities.isValidValue(someObject: lastName as AnyObject){
+
+        if Utilities.isValidValue(someObject: lastName as AnyObject) {
             self.lastName = lastName
         }
-        
-        if Utilities.isValidValue(someObject: emailId as AnyObject){
+
+        if Utilities.isValidValue(someObject: emailId as AnyObject) {
             self.emailId = emailId
         }
-        
-        if Utilities.isValidValue(someObject: userId as AnyObject){
+
+        if Utilities.isValidValue(someObject: userId as AnyObject) {
             self.userId = userId
         }
-        
     }
-    
-    //MARK: Setter Methods
-    func setUserDetails(details : Dictionary<String,Any>) {
-        
-        if Utilities.isValidObject(someObject: details as AnyObject){
-            
-            if Utilities.isValidValue(someObject: details[kUserFirstName] as AnyObject){
-                if let firstName = details[kUserFirstName] as? String{
+
+    // MARK: Setter Methods
+    func setUserDetails(details: [String: Any]) {
+
+        if Utilities.isValidObject(someObject: details as AnyObject) {
+
+            if Utilities.isValidValue(someObject: details[kUserFirstName] as AnyObject) {
+                if let firstName = details[kUserFirstName] as? String {
                     self.firstName = firstName
-                }else{
+                } else {
                     self.firstName = kEmptyString
                 }
             }
-            
-            if Utilities.isValidValue(someObject: details[kUserLastName] as AnyObject){
-                if let lastName = details[kUserLastName] as? String{
+
+            if Utilities.isValidValue(someObject: details[kUserLastName] as AnyObject) {
+                if let lastName = details[kUserLastName] as? String {
                     self.lastName = lastName
-                }else{
+                } else {
                     self.lastName = kEmptyString
                 }
             }
-            
-            if Utilities.isValidValue(someObject: details[kUserEmailId] as AnyObject){
-                if let userEmail = details[kUserEmailId] as? String{
+
+            if Utilities.isValidValue(someObject: details[kUserEmailId] as AnyObject) {
+                if let userEmail = details[kUserEmailId] as? String {
                     self.emailId = userEmail
-                }else{
+                } else {
                     self.emailId = kEmptyString
                 }
             }
-            
-            if Utilities.isValidValue(someObject: details[kUserId] as AnyObject){
-                if let userID = details[kUserId] as? String{
+
+            if Utilities.isValidValue(someObject: details[kUserId] as AnyObject) {
+                if let userID = details[kUserId] as? String {
                     self.userId = userID
-                }else{
+                } else {
                     self.userId = nil
                 }
             }
         }
     }
-    
-    func setFirstName(firstName:String) {
+
+    func setFirstName(firstName: String) {
         self.firstName = firstName
     }
-    
-    func setLastName(lastName:String) {
+
+    func setLastName(lastName: String) {
         self.lastName = lastName
     }
-    
-    func setEmailId(emailId:String) {
+
+    func setEmailId(emailId: String) {
         self.emailId = emailId
     }
-    
-    func setUserId(userId:String) {
+
+    func setUserId(userId: String) {
         self.userId = userId
     }
-    
-    //MARK: Getter Methods
-    
+
+    // MARK: Getter Methods
+
     /**
      *  Used to get the full name of the user
      *  @return : String -> Full name of the user
@@ -129,7 +126,7 @@ class User {
     func getFullName() -> String {
         return firstName + " " + lastName!
     }
-    
+
     /**
      *  Used to get the email id of the user
      *  @return : String -> Email ID of the user
@@ -137,7 +134,7 @@ class User {
     func getUserEmail() -> String? {
         return emailId!
     }
-    
+
     /**
      *  Used to get the User id of the user
      *  @return : String -> User ID of the user
@@ -145,87 +142,80 @@ class User {
     func getUserID() -> String? {
         return userId!
     }
-    
+
     /**
      *  Used to get the all the details of the user
      *  @return : Dictionary -> containig all the details of the user
      *
      *  Note:- add/remove the details you want to get
      */
-    
-    func getUserDetails() -> Dictionary<String,Any> {
-        
-        var userDetails = Dictionary<String, Any>.init()
-        
-        if self.firstName != nil{
+
+    func getUserDetails() -> [String: Any] {
+
+        var userDetails = [String: Any].init()
+
+        if self.firstName != nil {
             userDetails[kUserFirstName] = self.firstName
-        }else{
+        } else {
             userDetails[kUserFirstName] = kEmptyString
         }
-        
-        if self.lastName != nil{
+
+        if self.lastName != nil {
             userDetails[kUserLastName] = self.lastName
-            
-        }else{
+        } else {
             userDetails[kUserLastName] = kEmptyString
         }
-        
-        if self.userId != nil{
+
+        if self.userId != nil {
             userDetails[kUserId] = self.userId
-            
         }
-        
         return userDetails
     }
 }
 
-//MARK:User Settings
-class Settings{
-    
-    var remoteNotifications : Bool?
-    var localNotifications :Bool?
-    
+// MARK: User Settings
+class Settings {
+
+    var remoteNotifications: Bool?
+    var localNotifications: Bool?
+
     init() {
         self.remoteNotifications = false
         self.localNotifications = true
     }
-    
-    init(remoteNotifications:Bool?,localNotifications:Bool?) {
-        
-        if Utilities.isValidValue(someObject: remoteNotifications as AnyObject){
+
+    init(remoteNotifications: Bool?, localNotifications: Bool?) {
+
+        if Utilities.isValidValue(someObject: remoteNotifications as AnyObject) {
             self.remoteNotifications = remoteNotifications
         }
-        
-        if Utilities.isValidValue(someObject: localNotifications as AnyObject){
+
+        if Utilities.isValidValue(someObject: localNotifications as AnyObject) {
             self.localNotifications = localNotifications
         }
-        
+
     }
-    
-    func setRemoteNotification(value : Bool) {
+
+    func setRemoteNotification(value: Bool) {
         self.remoteNotifications = value
     }
-    
-    func setLocalNotification(value : Bool) {
+
+    func setLocalNotification(value: Bool) {
         self.localNotifications = value
     }
-    
-    
-    func setSettings(dict:Dictionary<String,Any>) {
-        
+
+    func setSettings(dict: [String: Any]) {
+
         if Utilities.isValidObject(someObject: dict as AnyObject) {
-            
-            if  Utilities.isValidValue(someObject: dict[kSettingsRemoteNotifications] as AnyObject){
+
+            if  Utilities.isValidValue(someObject: dict[kSettingsRemoteNotifications] as AnyObject) {
                 self.remoteNotifications = dict[kSettingsRemoteNotifications] as? Bool
             }
-            if Utilities.isValidValue(someObject: dict[kSettingsLocalNotifications] as AnyObject){
+            if Utilities.isValidValue(someObject: dict[kSettingsLocalNotifications] as AnyObject) {
                 self.localNotifications = dict[kSettingsLocalNotifications] as? Bool
             }
-        }
-        else {
+        } else {
             Logger.sharedInstance.debug("Settings Dictionary is null:\(dict)")
         }
-        
-        
     }
 }

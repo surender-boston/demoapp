@@ -9,16 +9,14 @@
 import Foundation
 import UIKit
 
-
-protocol NMWebServiceDelegate {
+protocol NMWebServiceDelegate: class {
     /**
      *  Called when request is fired.Use this to show any activity indicator
      *
      *  @param manager       NetworkManager instance
      *  @param requestName Web request@objc  name
      */
-    func startedRequest(_ manager: NetworkManager, requestName:String)
-    
+    func startedRequest(_ manager: NetworkManager, requestName: String)
     /**
      *  Called when request if finished. Handle your response or error in this delegate
      *
@@ -26,8 +24,7 @@ protocol NMWebServiceDelegate {
      *  @param requestName Web request name
      *  @param response    Web response of Dictionary format
      */
-    func finishedRequest(_ manager: NetworkManager, requestName:String, response: AnyObject?)
-    
+    func finishedRequest(_ manager: NetworkManager, requestName: String, response: AnyObject?)
     /**
      *  Called when request failed, Handle errors in this delegate
      *
@@ -35,12 +32,10 @@ protocol NMWebServiceDelegate {
      *  @param requestName Web request name
      *  @param error       Request error
      */
-    func failedRequest(_ manager: NetworkManager, requestName:String, error: NSError)
-    
+    func failedRequest(_ manager: NetworkManager, requestName: String, error: NSError)
 }
 
-
-protocol NMAuthChallengeDelegate {
+protocol NMAuthChallengeDelegate: class {
     /**
      *  Called when server throws for authentacation challenge
      *
@@ -49,8 +44,7 @@ protocol NMAuthChallengeDelegate {
      *
      *  @return NSURLCredential
      */
-    func networkCredential(_ manager : NetworkManager, challenge : URLAuthenticationChallenge) -> URLCredential
-    
+    func networkCredential(_ manager: NetworkManager, challenge: URLAuthenticationChallenge) -> URLCredential
     /**
      *  Called when request ask for authentication
      *
@@ -59,20 +53,16 @@ protocol NMAuthChallengeDelegate {
      *
      *  @return NSURLSessionAuthChallengeDisposition
      */
-    func networkChallengeDisposition(_ manager : NetworkManager, challenge : URLAuthenticationChallenge) -> URLSession.AuthChallengeDisposition
+    func networkChallengeDisposition(_ manager: NetworkManager, challenge: URLAuthenticationChallenge) -> URLSession.AuthChallengeDisposition
 }
 
 class NetworkManager {
-    
-    static var instance : NetworkManager? = nil
-    var networkAvailability : Bool = true
-    var reachability : Reachability? = nil
-    
-    
-    class func isNetworkAvailable()-> Bool {
+    static var instance: NetworkManager?
+    var networkAvailability: Bool = true
+    var reachability: Reachability?
+    class func isNetworkAvailable() -> Bool {
         return self.sharedInstance().networkAvailability
     }
-    
     init() {
 //        do {
 //            reachability =  Reachability.init()
@@ -80,29 +70,24 @@ class NetworkManager {
 //            print("Unable to create Reachability")
 //        }
         reachability =  Reachability.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(_:)), name:ReachabilityChangedNotification, object: nil)
-    
-        do{
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(_:)), name:reachabilityChangedNotification, object: nil)
+        do {
             try reachability?.startNotifier()
-        }catch{
+        } catch {
             print("could not start reachability notifier")
         }
     }
-    
-    class func sharedInstance()-> NetworkManager {
+    class func sharedInstance() -> NetworkManager {
         self.instance = self.instance ?? NetworkManager()
         return self.instance!
     }
-    
     @objc func reachabilityChanged(_ notification: Notification) {
-        
         if self.reachability!.isReachable {
             networkAvailability = true
         } else {
             networkAvailability = false
         }
     }
-    
     /**
      *  Request compose with requestName and requestType
      *
@@ -114,15 +99,11 @@ class NetworkManager {
      *  @param delegate    NMWebServiceDelegate
      *
      */
-    func composeRequest(_ requestName: String, requestType : RequestType , method : HTTPMethod , params : Dictionary<String, Any>?, headers : Dictionary<String, String>?, delegate : NMWebServiceDelegate) {
-        
+    func composeRequest(_ requestName: String, requestType: RequestType, method: HTTPMethod, params: [String:Any]?, headers: [String:String]?, delegate: NMWebServiceDelegate) {
         let networkWSHandler = NetworkWebServiceHandler(delegate: delegate, challengeDelegate: UIApplication.shared.delegate as? NMAuthChallengeDelegate)
         networkWSHandler.networkManager = self
         networkWSHandler.composeRequestFor(requestName, requestType: requestType, method: method, params: params, headers: headers)
-        
     }
-    
-    
     /**
      *  Request compose with NetworkConfiguration
      *
@@ -133,14 +114,9 @@ class NetworkManager {
      *  @param delegate      NMWebServiceDelegate
      *
      */
-    func composeRequest(_ configuration:NetworkConfiguration, method: Method, params : Dictionary<String, Any>?, headers : Dictionary<String, String>?, delegate : NMWebServiceDelegate) {
-        
+    func composeRequest(_ configuration: NetworkConfiguration, method: Method, params: [String:Any]?, headers: [String:String]?, delegate: NMWebServiceDelegate) {
         let networkWSHandler = NetworkWebServiceHandler(delegate: delegate, challengeDelegate: UIApplication.shared.delegate as? NMAuthChallengeDelegate)
         networkWSHandler.networkManager = self
         networkWSHandler.composeRequest(configuration, method: method, params: params, headers: headers)
-        
     }
-    
-    
-    
 }

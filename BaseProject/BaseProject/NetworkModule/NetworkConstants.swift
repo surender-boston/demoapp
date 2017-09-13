@@ -7,7 +7,7 @@
 //
 
 import Foundation
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -18,7 +18,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l > r
@@ -27,8 +27,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
-//Mark: WebRequestMethods
+// MARK: WebRequestMethods
 
 struct NetworkConnectionConstants {
     static let ConnectionTimeoutInterval = 30.0
@@ -52,25 +51,19 @@ struct HTTPHeaderValues {
 }
 
 struct NetworkURLConstants {
-    //TODO: Set the server end points
-    
-    static let ProductionURL = "https://hphci-fdama-te-ur-01.labkey.com/fdahpUserRegWS/"
-    static let DevelopmentURL = "https://hphci-fdama-te-ur-01.labkey.com/fdahpUserRegWS/"
-    
+    // Set the server end points
+    static let ProductionURL = ""
+    static let DevelopmentURL = ""
 }
 
-
-
-
 class NetworkConstants: NSObject {
-    //TODO: Configure common parameters for requests here.
-    class func getCommonRequestParameters()-> Dictionary<String, Any>? {
+    // Configure common parameters for requests here.
+    class func getCommonRequestParameters()-> [String:Any]? {
         return nil
     }
-    
-    class func getCommonHeaderParameters() -> Dictionary<String, String>? {
+    class func getCommonHeaderParameters() -> [String:Any]? {
         _ = UserDefaults.standard.value(forKey: "cookies")
-        let headers : Dictionary<String, String>? =  nil
+        let headers: [String:String]? =  nil
         /*
         if (cookie != nil && (cookie as AnyObject).length > 0){
             headers = ["cookie" : cookie!]
@@ -78,25 +71,19 @@ class NetworkConstants: NSObject {
         */
         return headers
     }
-    
-    fileprivate func getTrustedHosts()-> Array<String> {
-        let array = [TrustedHosts.TrustedHost1,TrustedHosts.TrustedHost2,TrustedHosts.TrustedHost3]
+    fileprivate func getTrustedHosts() -> [String] {
+        let array = [TrustedHosts.TrustedHost1, TrustedHosts.TrustedHost2, TrustedHosts.TrustedHost3]
         return array as Array
     }
-    
-    class func checkResponseHeaders(_ response : URLResponse)-> (NSInteger,String) {
+    class func checkResponseHeaders(_ response: URLResponse) -> (NSInteger, String) {
         let httpResponse = response as? HTTPURLResponse
-       
-        let headers = httpResponse!.allHeaderFields as! Dictionary<String, Any>
+        let headers = httpResponse!.allHeaderFields as? [String:Any]
         let statusCode = httpResponse!.statusCode
         var statusMessage = ""
-        
-        if let message = headers["StatusMessage"] {
+        if let message = headers!["StatusMessage"] {
             // now val is not nil and the Optional has been unwrapped, so use it
-            statusMessage = message as! String
+            statusMessage = (message as? String)!
         }
-        
-        return (statusCode,statusMessage)
+        return (statusCode, statusMessage)
     }
 }
-

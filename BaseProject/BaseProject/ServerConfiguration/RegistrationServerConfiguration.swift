@@ -7,8 +7,8 @@
 //
 
 import UIKit
-enum RegistrationMethods:String {
-    //TODO : Write exact name for request method
+enum RegistrationMethods: String {
+    // Write exact name for request method
     case login
     case register
     case forgotPassword
@@ -16,53 +16,40 @@ enum RegistrationMethods:String {
     case getProfile
     case updateProfile
     case logout
-    
-    var description:String {
+    var description: String {
         switch self {
-        
         default:
             return self.rawValue+".api"
         }
     }
-    
-    var method:Method {
-        
+    var method: Method {
         switch self {
-       
-        case .getProfile:
+        case .login:
             //GET Methods
             return Method(methodName:(self.rawValue+".api"), methodType: .httpMethodGet, requestType: .requestTypeHTTP)
-        case .register, .forgotPassword, .changePassword, .updateProfile,.login:
+        case .register:
             //DELETE Methods
             return Method(methodName:(self.rawValue+".api"), methodType: .httpMethodPOST, requestType: .requestTypeJSON)
         default:
             //POST Methods
             return Method(methodName:(self.rawValue+".api"), methodType: .httpMethodDELETE, requestType: .requestTypeJSON)
-            
-            
         }
     }
-   
 }
 struct RegistrationServerURLConstants {
-    //TODO: Set the server end points
-    
-    static let ProductionURL = "https://hphci-fdama-te-ur-01.labkey.com/fdahpUserRegWS/"
-    static let DevelopmentURL = "https://hphci-fdama-te-ur-01.labkey.com/fdahpUserRegWS/"
-    
+    // Set the server end points
+    static let ProductionURL = ""
+    static let DevelopmentURL = ""
 }
 class RegistrationServerConfiguration: NetworkConfiguration {
     static let configuration = RegistrationServerConfiguration()
-    
-    
-    //MARK:  Delegates
+    // MARK: Delegates
     override func getProductionURL() -> String {
         return RegistrationServerURLConstants.ProductionURL
     }
     override func getDevelopmentURL() -> String {
         return RegistrationServerURLConstants.DevelopmentURL
     }
-    
     override func getDefaultHeaders() -> [String : String] {
         return Dictionary()
     }
@@ -72,6 +59,4 @@ class RegistrationServerConfiguration: NetworkConfiguration {
     override func shouldParseErrorMessage() -> Bool {
         return false
     }
-
-
 }

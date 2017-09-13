@@ -14,44 +14,42 @@ protocol NetworkConfigurationProtocol {
      *
      *  @return URL in String fromat
      */
-    func getDevelopmentURL()->String
+    func getDevelopmentURL() -> String
     /**
      *  Called to get production URL
      *
      *  @return URL in String fromat
      */
-    func getProductionURL()->String
+    func getProductionURL() -> String
     /**
      *  Called to get defaultHeaders
      *
      *  @return Dictionary
      */
-    func getDefaultHeaders()->Dictionary<String, String>
+    func getDefaultHeaders() -> [String:String]
     /**
      *  Called to get defaultRequestParameters
      *
      *  @return Dictionary
      */
-    func getDefaultRequestParameters()->Dictionary<String, Any>
+    func getDefaultRequestParameters() -> [String:Any]
 }
 class  Method {
-    
-    let methodName:String
-    let methodType:HTTPMethod
-    let requestType:RequestType
-    init(methodName:String,methodType:HTTPMethod,requestType:RequestType) {
+    let methodName: String
+    let methodType: HTTPMethod
+    let requestType: RequestType
+    init(methodName: String, methodType: HTTPMethod, requestType: RequestType) {
         self.methodName = methodName
         self.methodType = methodType
         self.requestType = requestType
     }
 }
-class NetworkProtocols:NetworkConfigurationProtocol {
-    
-    internal func getDefaultRequestParameters() -> Dictionary<String, Any> {
+class NetworkProtocols: NetworkConfigurationProtocol {
+    internal func getDefaultRequestParameters() -> [String:Any] {
         return Dictionary()
     }
 
-    internal func getDefaultHeaders() -> Dictionary<String, String> {
+    internal func getDefaultHeaders() -> [String:String] {
         return Dictionary()
     }
 
@@ -65,16 +63,11 @@ class NetworkProtocols:NetworkConfigurationProtocol {
     internal func shouldParseErrorMessage() -> Bool {
         return false
     }
-    internal func parseError(errorResponse:Dictionary<String,Any>)->NSError {
-        
+    internal func parseError(errorResponse: [String:Any]) -> NSError {
         // Handle your error here
-        let error = NSError(domain: NSURLErrorDomain, code:101,userInfo:[NSLocalizedDescriptionKey:"Your error localized description"])
+        let error = NSError(domain: NSURLErrorDomain, code: 101, userInfo: [NSLocalizedDescriptionKey: "Your error localized description"])
         return  error
     }
-
-    
 }
 class NetworkConfiguration: NetworkProtocols {
-
-
 }

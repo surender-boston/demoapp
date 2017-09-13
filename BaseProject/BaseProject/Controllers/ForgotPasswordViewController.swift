@@ -9,81 +9,77 @@
 import UIKit
 
 class ForgotPasswordViewController: UIViewController {
-    
-    //MARK: UIControls
+
+    // MARK: UIControls
     @IBOutlet weak var buttonSubmit: UIButton!
     @IBOutlet weak var textFieldEmail: UITextField!
-    
-    //MARK: ViewController LifeCycle Methods
+
+    // MARK: ViewController LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    //MARK: Button Actions
+
+    // MARK: Button Actions
     /**
      *  Called when submit button is tapped
      */
-    
+
     @IBAction func submitButtonAction(sender : Any) {
-        
+
     }
-    
-    //MARK: Custom Methods
-    
+
+    // MARK: Custom Methods
     /**
      *  Call the web service for "Forgot password" feature
      */
-    
+
     func requestForNewPassword() {
-        
         UserServices().requestForForgotPassword(self)
     }
 }
 
-//MARK: UITextFieldDelegate Methods
-extension ForgotPasswordViewController : UITextFieldDelegate{
-    
+// MARK: UITextFieldDelegate Methods
+extension ForgotPasswordViewController : UITextFieldDelegate {
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
-    
+
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         return true
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
+
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         textField.text =  textField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         textFieldEmail.text = textField.text!
-        
+
     }
 }
 
-//Mark:- WebService Delegate Methods
+// MARK: WebService Delegate Methods
 extension ForgotPasswordViewController: NMWebServiceDelegate {
+
     func startedRequest(_ manager: NetworkManager, requestName: String) {
-        
+
     }
-    
+
     func finishedRequest(_ manager: NetworkManager, requestName: String, response: AnyObject?) {
-        
+
     }
-    
+
     func failedRequest(_ manager: NetworkManager, requestName: String, error: NSError) {
-        
+
     }
 }
