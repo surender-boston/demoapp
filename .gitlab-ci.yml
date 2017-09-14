@@ -9,8 +9,9 @@ stages:
 build_project:
   stage: build
   script:
-    - xcodebuild clean -project BaseProject.xcodeproj -scheme BaseProject | xcpretty
-    - xcodebuild test -project BaseProject.xcodeproj -scheme BaseProject -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.2' | xcpretty -s
+    - xcodebuild clean -workspace BaseProject/BaseProject.xcworkspace -scheme BaseProject | xcpretty
+    - xcodebuild  -workspace BaseProject/BaseProject.xcodeproj -scheme BaseProject -destination 'platform=iOS Simulator,name=iPhone 6s,OS=10.0' | xcpretty -s
+    - xcodebuild test -project BaseProject/BaseProject.xcodeproj -scheme BaseProject -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.2' | xcpretty -s
   tags:
     - ios
     
