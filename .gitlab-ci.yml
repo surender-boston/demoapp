@@ -21,17 +21,17 @@ sonar_review:
     tags:
         - ios
 
-archive_project:
-  stage: archive
-  script:
-    - xcodebuild clean archive -archivePath build/ProjectName -scheme SchemeName
-    - xcodebuild -exportArchive -exportFormat ipa -archivePath "build/ProjectName.xcarchive" -exportPath "build/ProjectName.ipa" -exportProvisioningProfile "ProvisioningProfileName"
-  only:
-    - master
-  artifacts:
-    paths:
-    - build/ProjectName.ipa
-  tags:
-    - ios_9-2
-    - xcode_7-2
-    - osx_10-11
+#archive_project:
+#  stage: archive
+#  script:
+#    - xcodebuild clean archive -archivePath build/ProjectName -scheme SchemeName
+#    - xcodebuild -exportArchive -exportFormat ipa -archivePath "build/ProjectName.xcarchive" -exportPath "build/ProjectName.ipa" -exportProvisioningProfile "ProvisioningProfileName"
+#  only:
+#    - master
+#  artifacts:
+#    paths:
+#    - build/ProjectName.ipa
+#  tags:
+#    - ios_9-2
+#    - xcode_7-2
+#    - osx_10-11
