@@ -18,7 +18,7 @@ build_project:
 sonar_review:
     stage: review
     script: 
-        - sonar-scanner
+        - swift-sonar-scanner
     tags:
         - ios
 
