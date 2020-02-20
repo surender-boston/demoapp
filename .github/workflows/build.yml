@@ -1,7 +1,7 @@
 on:
   push:
     branches:    
-      - master
+      - ios
 name: Build
 jobs:
   test:
@@ -12,7 +12,7 @@ jobs:
           destination: ['platform=iOS Simulator,OS=13.3,name=iPhone 11']
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@ios
       - name: Build
         run: |
           cd Demo-CICD
